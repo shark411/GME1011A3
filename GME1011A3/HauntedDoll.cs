@@ -43,7 +43,7 @@ namespace HeroInheritance
 
         public override string ToString()
         {
-            return "Haunted Doll[" + base.ToString() + "]";
+            return "Haunted Doll[" + base.ToString() + ", " + _hatred + "]";
         }
     }
 }

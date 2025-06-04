@@ -112,6 +112,7 @@ namespace GME1011A3
                 //NOTE to coders - armour affects how much damage goblins take, and skellies take
                 //half damage - remember that when reviewing the output
 
+
                 Console.ForegroundColor = ConsoleColor.Red;
                 //did we vanquish the baddie we were battling?
                 if (baddies[indexOfEnemy].isDead())
@@ -122,6 +123,9 @@ namespace GME1011A3
                 }
                 else //baddie survived, now attacks the hero
                 {
+                    //Tell them how much health the baddie has.
+                    Console.WriteLine("The " + baddies[indexOfEnemy].GetType().Name + " has " + baddies[indexOfEnemy].GetHealth() + " health remaining.");
+
                     Console.ForegroundColor = ConsoleColor.Red;
                     int oddsBaddie = rng.Next(1, 101);
                     //TODO: The baddie doesn't ever use their special attack - but they should. Change the above to 
