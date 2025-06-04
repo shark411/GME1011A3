@@ -26,7 +26,9 @@ namespace GME1011A3
             Random rng = new Random();
             if ((rng.Next(1, 15) < _dexterity) )
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("**Goblin-dodge, sneaky**");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {

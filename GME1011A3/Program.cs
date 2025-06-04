@@ -35,7 +35,7 @@ namespace GME1011A3
             List<Minion> baddies = new List<Minion>();
 
 
-
+            Console.WriteLine("Type[Class][Health,Armour][Dexterity]");
             for (int i = 0; i < numBaddies; i++)
             {
 
@@ -102,45 +102,80 @@ namespace GME1011A3
                     int heroDamage = hero.DealDamage();  //how much damage?
                     Console.WriteLine("Hero deals " + heroDamage + " regular heroic damage.");
                     baddies[indexOfEnemy].TakeDamage(heroDamage); //baddie takes the damage
-                } 
+                }
 
                 //NOTE to coders - armour affects how much damage goblins take, and skellies take
                 //half damage - remember that when reviewing the output
 
+                Console.ForegroundColor = ConsoleColor.Red;
                 //did we vanquish the baddie we were battling?
                 if (baddies[indexOfEnemy].isDead())
                 {
                     numAliveBaddies--; //one less baddie to worry about.
                     Console.WriteLine("Enemy #" + (indexOfEnemy+1) + " has been dispatched to void.");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else //baddie survived, now attacks the hero
                 {
-                    int baddieDamage = baddies[indexOfEnemy].DealDamage();  //how much damage?
-                    Console.WriteLine("Enemy #" + (indexOfEnemy+1) + " deals " + baddieDamage + " damage!");
-                    hero.TakeDamage(baddieDamage); //hero takes damage
-
-
-
-
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    int oddsBaddie = rng.Next(1, 101);
                     //TODO: The baddie doesn't ever use their special attack - but they should. Change the above to 
                     //have a 33% chance that the baddie uses their special, and 67% that they use their regular attack.
-                    
+                    if (baddies[indexOfEnemy].GetType() == typeof(Goblin))
+                    {
+                        if (oddsBaddie <= 33) //Special attack
+                        {
+                            int baddieDamage = ((Goblin)baddies[indexOfEnemy]).GoblinBite();  //how much damage?
+                            Console.WriteLine("Enemy #" + (indexOfEnemy + 1) + " deals " + baddieDamage + " damage!");
+                            hero.TakeDamage(baddieDamage); //hero takes damage
+
+                        }
+                        else //Regular attack
+                        {
+                            int baddieDamage = baddies[indexOfEnemy].DealDamage();  //how much damage?
+                            Console.WriteLine("Enemy #" + (indexOfEnemy + 1) + " deals " + baddieDamage + " damage!");
+                            hero.TakeDamage(baddieDamage); //hero takes damage
+                        }
+
+                    }
+                    if (baddies[indexOfEnemy].GetType() == typeof(Skellie))
+                    {
+                        if (oddsBaddie <= 33) //Special attack
+                        {
+                            int baddieDamage = ((Skellie)baddies[indexOfEnemy]).SkellieRattle();  //how much damage?
+                            Console.WriteLine("Enemy #" + (indexOfEnemy + 1) + " deals " + baddieDamage + " damage!");
+                            hero.TakeDamage(baddieDamage); //hero takes damage
+
+                        }
+                        else //Regular attack
+                        {
+                            int baddieDamage = baddies[indexOfEnemy].DealDamage();  //how much damage?
+                            Console.WriteLine("Enemy #" + (indexOfEnemy + 1) + " deals " + baddieDamage + " damage!");
+                            hero.TakeDamage(baddieDamage); //hero takes damage
+                        }
+
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
 
 
 
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     //let's look in on our hero.
                     Console.WriteLine(hero.GetName() + " has " + hero.GetHealth() + " health remaining.");
+                    Console.ForegroundColor = ConsoleColor.Green;
                     if (hero.isDead()) //did the hero die
                     {
                         Console.WriteLine(hero.GetName() + " has died. All hope is lost.");
                     }
-
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.WriteLine("-----------------------------------------");
             }
+            Console.ForegroundColor = ConsoleColor.Green;
             //if we made it this far, the hero is victorious! (that's what the message says.
-            if(!hero.isDead())
+            if (!hero.isDead())
                 Console.WriteLine("\nAll enemies have been dispatched!! " + hero.GetName() + " is victorious!");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
     }
