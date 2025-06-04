@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HeroInheritance;
 
 namespace GME1011A3
 {
@@ -35,22 +36,26 @@ namespace GME1011A3
             List<Minion> baddies = new List<Minion>();
 
 
-            Console.WriteLine("Type[Class][Health,Armour][Dexterity]");
+            Console.WriteLine("Type[Class][Health, Armour][Additional Stat]");
             for (int i = 0; i < numBaddies; i++)
             {
 
 
-                //Each baddie has 50% chance of being a goblin, 50% chance of being a skellie.
-                int odds = rng.Next(1, 101);
-                    if (odds <= 50)
+                //Each baddie has 33% chance of spawning.
+                int odds = rng.Next(1,4);
+                    if (odds == 1)
                     {
                         baddies.Add(new Goblin(rng.Next(30, 35), rng.Next(1, 5), rng.Next(1, 10)));
                     }
-                    else
+                    if (odds ==2)
                     {
                         //A skellie should have random health between 25 and 30, and 0 armour (remember
                         //skellie armour is 0 anyway)
                         baddies.Add(new Skellie(rng.Next(25, 30), 0));
+                    }
+                    if (odds ==3)
+                    {
+                        baddies.Add(new HauntedDoll(rng.Next(10, 20), rng.Next(1, 3), rng.Next(1, 10)));
                     }
                     
             }
@@ -156,13 +161,30 @@ namespace GME1011A3
 
                         Console.ForegroundColor = ConsoleColor.White;
                     }
+                    if (baddies[indexOfEnemy].GetType() == typeof(HauntedDoll))
+                    {
+                        if (oddsBaddie <= 33) //Special attack
+                        {
+                            int baddieDamage = ((HauntedDoll)baddies[indexOfEnemy]).Curse();  //how much damage?
+                            Console.WriteLine("Enemy #" + (indexOfEnemy + 1) + " deals " + baddieDamage + " damage!");
+                            hero.TakeDamage(baddieDamage); //hero takes damage
+
+                        }
+                        else //Regular attack
+                        {
+                            int baddieDamage = baddies[indexOfEnemy].DealDamage();  //how much damage?
+                            Console.WriteLine("Enemy #" + (indexOfEnemy + 1) + " deals " + baddieDamage + " damage!");
+                            hero.TakeDamage(baddieDamage); //hero takes damage
+                        }
+
+                    }
 
 
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     //let's look in on our hero.
                     Console.WriteLine(hero.GetName() + " has " + hero.GetHealth() + " health remaining.");
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                     if (hero.isDead()) //did the hero die
                     {
                         Console.WriteLine(hero.GetName() + " has died. All hope is lost.");
