@@ -77,22 +77,32 @@ namespace GME1011A3
                 }
 
                 //hero deals damage first
-                Console.WriteLine(hero.GetName() + " is attacking enemy #" + (indexOfEnemy+1) + " of " + numBaddies + ". Eek, it's a " + baddies[indexOfEnemy].GetType().Name);
-                int heroDamage = hero.DealDamage();  //how much damage?
-                Console.WriteLine("Hero deals " + heroDamage + " heroic damage."); 
-                baddies[indexOfEnemy].TakeDamage(heroDamage); //baddie takes the damage
-
-
-
-
-                //TODO: The hero doesn't ever use their special attack - but they should. Change the above to 
-                //have a 33% chance that the hero uses their special, and 67% that they use their regular attack.
-                //If the hero doesn't have enough special power to use their special attack, they do their regular 
-                //attack instead - but make a note of it in the output. There's no way for the hero to get more special
-                //power points, but if you want to craft a way for that to happen, that's fine.
-
-
-
+                //Has a 33% chance that the hero uses their special, and 67% that they use their regular attack.
+                int odds = rng.Next(1, 101);
+                if (odds <= 33 && hero.GetStrength() > 0) //Special attack
+                {
+                    Console.WriteLine(hero.GetName() + " is GOING BERSERK on enemy #" + (indexOfEnemy + 1) + " of " + numBaddies + ". Eek, it's a " + baddies[indexOfEnemy].GetType().Name);
+                    int heroDamage = hero.Berserk();  //how much damage?
+                    Console.WriteLine("Hero deals " + heroDamage + " special heroic damage.");
+                    baddies[indexOfEnemy].TakeDamage(heroDamage); //baddie takes the damage
+                }
+                else if (odds <= 33 && hero.GetStrength() <= 0) //Special attack NO STRENGTH
+                {
+                    //If the hero doesn't have enough special power to use their special attack, they do their regular 
+                    //attack instead - but make a note of it in the output. There's no way for the hero to get more special
+                    //power points, but if you want to craft a way for that to happen, that's fine.
+                    Console.WriteLine(hero.GetName() + " wants to go BERSERK on enemy #" + (indexOfEnemy + 1) + " of " + numBaddies + ", but has no more SPECIAL POWER... Eek, it's a " + baddies[indexOfEnemy].GetType().Name);
+                    int heroDamage = hero.DealDamage();  //how much damage?
+                    Console.WriteLine("Hero deals " + heroDamage + " regular heroic damage instead.");
+                    baddies[indexOfEnemy].TakeDamage(heroDamage); //baddie takes the damage
+                }
+                else //Regular attack
+                {
+                    Console.WriteLine(hero.GetName() + " is attacking enemy #" + (indexOfEnemy + 1) + " of " + numBaddies + ". Eek, it's a " + baddies[indexOfEnemy].GetType().Name);
+                    int heroDamage = hero.DealDamage();  //how much damage?
+                    Console.WriteLine("Hero deals " + heroDamage + " regular heroic damage.");
+                    baddies[indexOfEnemy].TakeDamage(heroDamage); //baddie takes the damage
+                } 
 
                 //NOTE to coders - armour affects how much damage goblins take, and skellies take
                 //half damage - remember that when reviewing the output
